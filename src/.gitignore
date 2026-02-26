@@ -1,0 +1,29 @@
+# Secrets
+optimzer_labs/settings/local.py
+# Python
+__pycache__/
+*.py[cod]
+.Python
+
+# Venv
+.venv/
+venv/
+
+# Django
+*.log
+db.sqlite3
+media/
+static/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker (pas utilisé sur AlwaysData)
+Dockerfile
+.dockerignore
