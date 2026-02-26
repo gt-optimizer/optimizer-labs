@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block content %}
+
+  <!-- ========== HERO ========== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero__content">
+
+        <span class="hero__label">Optimisation de production</span>
+
+        <h1 class="hero__title">
+          {{ page.hero_title|richtext }}
+        </h1>
+
+        <div class="hero__subtitle">
+          {{ page.hero_subtitle|richtext }}
+        </div>
+
+        <div class="hero__actions">
+          <a href="{% if case_study_index %}{% pageurl case_study_index %}{% else %}/projets/{% endif %}"
+             class="btn btn--primary">
+            {{ page.hero_cta_text }}
+          </a>
+          <a href="/contact/" class="btn btn--outline">Prendre contact</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PROJETS EN VEDETTE ========== -->
+  <section class="section">
+    <div class="container">
+
+      <div class="section__header">
+        <span class="section__label">Études de cas</span>
+        <h2 class="section__title">{{ page.projects_section_title }}</h2>
+        <p class="section__subtitle">
+          Artisans, industries, grande distribution — découvrez comment j'ai transformé leurs ateliers.
+        </p>
+      </div>
+
+      {% if featured_projects %}
+        <div class="grid--3">
+          {% for project in featured_projects %}
+            <a href="{% pageurl project %}" class="card" style="text-decoration:none;">
+
+              {% if project.main_image %}
+                {% image project.main_image fill-600x400 as img %}
+                <img class="card__image" src="{{ img.url }}" alt="{{ img.alt }}" loading="lazy" />
+              {% else %}
+                <div class="card__image" style="background: var(--green-xlight); display:flex; align-items:center; justify-content:center;">
+                  <span style="color:var(--green-dark); font-size:2rem;">📊</span>
+                </div>
+              {% endif %}
+
+              <div class="card__body">
+                <div class="card__sector">{{ project.client_sector }}</div>
+                <h3 class="card__title">{{ project.title }}</h3>
+                <div class="card__tags">
+                  {% for tag in project.tags.all %}
+                    <span class="tag">{{ tag.name }}</span>
+                  {% endfor %}
+                </div>
+              </div>
+
+            </a>
+          {% endfor %}
+        </div>
+
+        <div class="text-center mt-4">
+          <a href="{% if case_study_index %}{% pageurl case_study_index %}{% else %}/projets/{% endif %}"
+             class="btn btn--outline">
+            Voir tous les projets
+          </a>
+        </div>
+
+      {% else %}
+        <p class="text-center" style="color:var(--grey-mid);">Les projets arrivent bientôt.</p>
+      {% endif %}
+
+    </div>
+  </section>
+
+  <!-- ========== TÉMOIGNAGES CARROUSEL ========== -->
+  {% if testimonials %}
+  <section class="section section--green">
+    <div class="container">
+
+      <div class="section__header">
+        <span class="section__label">Clients</span>
+        <h2 class="section__title">{{ page.testimonials_section_title }}</h2>
+      </div>
+
+      <div class="carousel" id="testimonialCarousel">
+        <div class="carousel__track" id="carouselTrack">
+          {% for t in testimonials %}
+            <div class="carousel__slide">
+              <div class="testimonial-card">
+
+                {% if t.client_logo %}
+                  {% image t.client_logo max-120x60 as logo %}
+                  <img class="testimonial-card__logo" src="{{ logo.url }}" alt="{{ t.client_name }}" />
+                {% endif %}
+
+                <p class="testimonial-card__quote">{{ t.testimonial }}</p>
+
+                <div class="testimonial-card__author">{{ t.client_name }}</div>
+                {% if t.client_company %}
+                  <div class="testimonial-card__company">{{ t.client_company }}{% if t.sector %} — {{ t.sector }}{% endif %}</div>
+                {% endif %}
+
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- Dots de navigation -->
+        <div class="carousel__controls" id="carouselDots">
+          {% for t in testimonials %}
+            <button class="carousel__dot {% if forloop.first %}active{% endif %}"
+                    data-index="{{ forloop.counter0 }}"
+                    aria-label="Témoignage {{ forloop.counter }}">
+            </button>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- ========== COUPURES DE PRESSE ========== -->
+  {% if press_cuts %}
+  <section class="section">
+    <div class="container">
+
+      <div class="section__header">
+        <span class="section__label">Médias</span>
+        <h2 class="section__title">{{ page.press_section_title }}</h2>
+      </div>
+
+      <div class="grid--3">
+        {% for press in press_cuts %}
+          <div class="press-card">
+
+            {% if press.cover_image %}
+              {% image press.cover_image fill-80x80 as pimg %}
+              <img class="press-card__image" src="{{ pimg.url }}" alt="{{ press.title }}" loading="lazy" />
+            {% else %}
+              <div class="press-card__image" style="background:var(--grey-light);display:flex;align-items:center;justify-content:center;">
+                <span style="font-size:1.5rem;">📰</span>
+              </div>
+            {% endif %}
+
+            <div>
+              <div class="press-card__source">{{ press.source }}</div>
+              <div class="press-card__title">{{ press.title }}</div>
+              <div class="press-card__date">{{ press.date|date:"d/m/Y" }}</div>
+              {% if press.file %}
+                <a href="{{ press.file.url }}" target="_blank" class="tag mt-1" style="display:inline-block;">
+                  Lire →
+                </a>
+              {% endif %}
+            </div>
+
+          </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- ========== APPEL À L'ACTION FINAL ========== -->
+  <section class="section" style="background: var(--green-dark);">
+    <div class="container text-center">
+      <h2 style="color:white; margin-bottom:1rem;">
+        Votre atelier a du potentiel.<br>Trouvons-le ensemble.
+      </h2>
+      <p style="color:rgba(255,255,255,0.8); margin-bottom:2rem; font-size:1.05rem;">
+        Un premier échange pour comprendre votre situation, sans engagement.
+      </p>
+      <a href="/contact/" class="btn btn--light">Prendre contact</a>
+    </div>
+  </section>
+
+{% endblock %}
+
+
+{% block extra_js %}
+<script>
+  // Carrousel témoignages
+  const track = document.getElementById('carouselTrack');
+  const dots  = document.querySelectorAll('.carousel__dot');
+  let current = 0;
+
+  function goTo(index) {
+    current = index;
+    track.style.transform = `translateX(-${index * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === index));
+  }
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => goTo(parseInt(dot.dataset.index)));
+  });
+
+  // Défilement automatique toutes les 5 secondes
+  setInterval(() => {
+    goTo((current + 1) % dots.length);
+  }, 5000);
+</script>
+{% endblock %}

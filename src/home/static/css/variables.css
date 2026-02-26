@@ -1,0 +1,12 @@
+:root {
+  --primary-color: #97b879;
+  --primary-dark: #458651;
+  --accent-color: #ff8c42; /* Orange pour les boutons/accents */
+  --text-color: #343a40;
+  --text-light: #ffffff;
+  --background-light: #f8f9fa;
+  --shadow-subtle: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+  --font-title: 'Ubuntu', sans-serif;
+  --font-text: 'Open Sans', sans-serif;
+}

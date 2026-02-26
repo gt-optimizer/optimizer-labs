@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block title %}Projets{% endblock %}
+
+{% block content %}
+
+  <!-- ========== EN-TÊTE ========== -->
+  <section class="section section--green" style="padding: 3rem 0;">
+    <div class="container">
+      <span class="section__label">Études de cas</span>
+      <h1 class="section__title mt-2">{{ page.title }}</h1>
+      {% if page.intro %}
+        <div class="section__subtitle mt-2">{{ page.intro|richtext }}</div>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- ========== FILTRES PAR TAG ========== -->
+  <section class="section" style="padding: 2rem 0;">
+    <div class="container">
+      <div style="display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center;">
+        <a href="{% pageurl page %}"
+           class="tag {% if not current_tag %}active{% endif %}">
+          Tous
+        </a>
+        {% for project in projects %}
+          {% for tag in project.tags.all %}
+            <a href="{% pageurl page %}?tag={{ tag.slug }}"
+               class="tag {% if current_tag == tag.slug %}active{% endif %}">
+              {{ tag.name }}
+            </a>
+          {% endfor %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== GRILLE PROJETS ========== -->
+  <section class="section" style="padding-top: 1rem;">
+    <div class="container">
+
+      {% if projects %}
+        <div class="grid--3">
+          {% for project in projects %}
+            <a href="{% pageurl project %}" class="card" style="text-decoration:none;">
+
+              {% if project.main_image %}
+                {% image project.main_image fill-600x400 as img %}
+                <img class="card__image" src="{{ img.url }}" alt="{{ img.alt }}" loading="lazy" />
+              {% else %}
+                <div class="card__image" style="background:var(--green-xlight);display:flex;align-items:center;justify-content:center;">
+                  <span style="color:var(--green-dark);font-size:2rem;">📊</span>
+                </div>
+              {% endif %}
+
+              <div class="card__body">
+                <div class="card__sector">{{ project.client_sector }}</div>
+                <h2 class="card__title">{{ project.title }}</h2>
+                <p class="card__excerpt">{{ project.project_date|date:"Y" }}</p>
+                <div class="card__tags">
+                  {% for tag in project.tags.all %}
+                    <span class="tag">{{ tag.name }}</span>
+                  {% endfor %}
+                </div>
+              </div>
+
+            </a>
+          {% endfor %}
+        </div>
+
+      {% else %}
+        <div class="text-center" style="padding: 4rem 0;">
+          <p style="color:var(--grey-mid); font-size:1.1rem;">
+            {% if current_tag %}
+              Aucun projet pour ce tag.
+              <a href="{% pageurl page %}">Voir tous les projets</a>
+            {% else %}
+              Les études de cas arrivent bientôt.
+            {% endif %}
+          </p>
+        </div>
+      {% endif %}
+
+    </div>
+  </section>
+
+{% endblock %}

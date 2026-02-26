@@ -1,0 +1,119 @@
+{% load static wagtailcore_tags wagtailimages_tags %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Optimizer Labs{% endblock %} — Optimisation de production</title>
+  <meta name="description" content="{% block meta_description %}Optimizer Labs — Optimisation d'ateliers et laboratoires de production. Méthode terrain, diagnostic data, outils sur mesure.{% endblock %}" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}" />
+
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+  <!-- ========== NAVBAR ========== -->
+  <header class="navbar">
+    <div class="container navbar__inner">
+
+      <a href="/" class="navbar__logo">
+        Optimizer<span>Labs</span>
+      </a>
+
+      <button class="navbar__toggle" id="navToggle" aria-label="Ouvrir le menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav>
+        <ul class="navbar__links" id="navLinks">
+          <li><a href="{% pageurl page.get_site.root_page %}"
+                 {% if page.slug == 'home' %}class="active"{% endif %}>
+            Accueil
+          </a></li>
+          <li><a href="/projets/"
+                 {% if '/projets/' in request.path %}class="active"{% endif %}>
+            Projets
+          </a></li>
+          <li><a href="/methode/"
+                 {% if '/methode/' in request.path %}class="active"{% endif %}>
+            Méthode
+          </a></li>
+          <li><a href="/a-propos/"
+                 {% if '/a-propos/' in request.path %}class="active"{% endif %}>
+            À propos
+          </a></li>
+          <li>
+            <a href="/contact/" class="navbar__cta">Contact</a>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- ========== CONTENU PRINCIPAL ========== -->
+  <main id="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+
+        <div>
+          <div class="footer__logo">Optimizer<span>Labs</span></div>
+          <p class="footer__desc">
+            Optimisation d'ateliers et laboratoires de production.<br>
+            Méthode terrain, diagnostic data, outils sur mesure.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer__heading">Navigation</div>
+          <ul class="footer__links">
+            <li><a href="/">Accueil</a></li>
+            <li><a href="/projets/">Projets</a></li>
+            <li><a href="/methode/">Méthode</a></li>
+            <li><a href="/a-propos/">À propos</a></li>
+            <li><a href="/contact/">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer__heading">Contact</div>
+          <ul class="footer__links">
+            <li><a href="/contact/">Prendre contact</a></li>
+            <li><a href="https://www.linkedin.com/in/TONPROFIL/" target="_blank" rel="noopener">LinkedIn</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer__bottom">
+        <span>© {% now "Y" %} Optimizer Labs — Tous droits réservés</span>
+        <span>Fait avec passion sur le terrain</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== JS ========== -->
+  <script>
+    // Menu mobile
+    const toggle = document.getElementById('navToggle');
+    const links  = document.getElementById('navLinks');
+    toggle.addEventListener('click', () => {
+      links.classList.toggle('open');
+    });
+  </script>
+
+  {% block extra_js %}{% endblock %}
+
+</body>
+</html>

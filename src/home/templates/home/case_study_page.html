@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block title %}{{ page.title }}{% endblock %}
+{% block meta_description %}{{ page.client_sector }} — {{ page.title }}{% endblock %}
+
+{% block content %}
+
+  <!-- ========== EN-TÊTE PROJET ========== -->
+  <section class="section section--green" style="padding: 3rem 0;">
+    <div class="container">
+
+      <a href="javascript:history.back()" style="color:var(--green-dark); font-size:0.9rem; font-weight:600;">
+        ← Retour aux projets
+      </a>
+
+      <div style="margin-top: 1.5rem;">
+        <div class="card__sector">{{ page.client_sector }}</div>
+        <h1 style="margin: 0.5rem 0 1rem;">{{ page.title }}</h1>
+
+        <div style="display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center;">
+          <span style="font-size:0.85rem; color:var(--grey-mid);">{{ page.project_date|date:"F Y" }}</span>
+          {% for tag in page.tags.all %}
+            <span class="tag">{{ tag.name }}</span>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== IMAGE PRINCIPALE ========== -->
+  {% if page.main_image %}
+  <div style="background:var(--grey-light);">
+    <div class="container" style="padding-top:0; padding-bottom:0;">
+      {% image page.main_image max-1200x600 as img %}
+      <img src="{{ img.url }}" alt="{{ img.alt }}"
+           style="width:100%; max-height:500px; object-fit:cover; display:block; border-radius:0 0 var(--radius-md) var(--radius-md);"
+           loading="lazy" />
+    </div>
+  </div>
+  {% endif %}
+
+  <!-- ========== CONTENU STRUCTURÉ ========== -->
+  <section class="section">
+    <div class="container" style="max-width: 860px;">
+
+      <!-- Contexte -->
+      <div style="margin-bottom: 3rem;">
+        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+          <div class="step__number" style="width:44px;height:44px;font-size:1rem;">1</div>
+          <h2 style="margin:0;">Contexte client</h2>
+        </div>
+        <div class="richtext">{{ page.context|richtext }}</div>
+      </div>
+
+      <hr style="border:none; border-top:1px solid var(--grey-border); margin-bottom:3rem;" />
+
+      <!-- Problème -->
+      <div style="margin-bottom: 3rem;">
+        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+          <div class="step__number" style="width:44px;height:44px;font-size:1rem;">2</div>
+          <h2 style="margin:0;">Problème à résoudre</h2>
+        </div>
+        <div class="richtext">{{ page.problem|richtext }}</div>
+      </div>
+
+      <hr style="border:none; border-top:1px solid var(--grey-border); margin-bottom:3rem;" />
+
+      <!-- Solution -->
+      <div style="margin-bottom: 3rem;">
+        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+          <div class="step__number" style="width:44px;height:44px;font-size:1rem;">3</div>
+          <h2 style="margin:0;">Solution apportée</h2>
+        </div>
+        <div class="richtext">{{ page.solution|richtext }}</div>
+      </div>
+
+      <hr style="border:none; border-top:1px solid var(--grey-border); margin-bottom:3rem;" />
+
+      <!-- Résultats -->
+      <div style="margin-bottom: 3rem;">
+        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+          <div class="step__number" style="width:44px;height:44px;font-size:1rem; background:var(--green-light);">4</div>
+          <h2 style="margin:0;">Résultats</h2>
+        </div>
+        <div class="richtext" style="background:var(--green-xlight); padding:1.5rem; border-radius:var(--radius-md); border-left: 4px solid var(--green-dark);">
+          {{ page.results|richtext }}
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== GALERIE ========== -->
+  {% if page.gallery_images.all %}
+  <section class="section section--grey" style="padding: 3rem 0;">
+    <div class="container">
+      <h2 class="text-center mb-4">Galerie</h2>
+      <div class="grid--3">
+        {% for item in page.gallery_images.all %}
+          {% image item.image fill-600x400 as gimg %}
+          <div style="border-radius:var(--radius-md); overflow:hidden; box-shadow:var(--shadow-sm);">
+            <img src="{{ gimg.url }}" alt="{{ item.caption|default:page.title }}"
+                 style="width:100%; height:220px; object-fit:cover; display:block;" loading="lazy" />
+            {% if item.caption %}
+              <div style="padding:0.75rem 1rem; font-size:0.85rem; color:var(--grey-mid); background:var(--white);">
+                {{ item.caption }}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- ========== CTA ========== -->
+  <section class="section" style="background:var(--green-dark); padding:3rem 0;">
+    <div class="container text-center">
+      <h2 style="color:white; margin-bottom:1rem;">Un projet similaire ?</h2>
+      <p style="color:rgba(255,255,255,0.8); margin-bottom:2rem;">
+        Parlons de votre situation, sans engagement.
+      </p>
+      <a href="/contact/" class="btn btn--light">Prendre contact</a>
+    </div>
+  </section>
+
+{% endblock %}

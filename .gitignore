@@ -1,0 +1,29 @@
+# Secrets
+src/optimzer_labs/settings/local.py
+
+# Python
+__pycache__/
+*.py[cod]
+.Python
+
+# Venv
+src/.venv/
+.venv/
+
+# Django
+*.log
+src/db.sqlite3
+src/media/
+src/static/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+Dockerfile
+.dockerignore

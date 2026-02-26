@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block title %}À propos{% endblock %}
+
+{% block content %}
+
+  <!-- ========== EN-TÊTE ========== -->
+  <section class="section section--green" style="padding: 3rem 0;">
+    <div class="container">
+      <span class="section__label">L'équipe</span>
+      <h1 class="mt-2">{{ page.title }}</h1>
+    </div>
+  </section>
+
+  <!-- ========== BIO ========== -->
+  <section class="section">
+    <div class="container">
+      <div class="about-grid">
+
+        <!-- Photo -->
+        <div>
+          {% if page.profile_image %}
+            {% image page.profile_image fill-400x500 as photo %}
+            <img class="about-photo" src="{{ photo.url }}" alt="{{ page.title }}" loading="lazy" />
+          {% else %}
+            <div class="about-photo" style="background:var(--green-xlight); display:flex; align-items:center; justify-content:center;">
+              <span style="font-size:4rem;">👤</span>
+            </div>
+          {% endif %}
+
+          <!-- Réseaux sociaux -->
+          {% if page.social_links.all %}
+            <div style="margin-top:1.5rem; display:flex; flex-direction:column; gap:0.75rem;">
+              {% for link in page.social_links.all %}
+                <a href="{{ link.url }}" target="_blank" rel="noopener"
+                   class="btn btn--outline" style="text-align:center;">
+                  {% if link.platform == 'linkedin' %}🔗 LinkedIn
+                  {% elif link.platform == 'github' %}💻 GitHub
+                  {% elif link.platform == 'twitter' %}🐦 Twitter / X
+                  {% elif link.platform == 'website' %}🌐 Site web
+                  {% else %}🔗 {{ link.get_platform_display }}
+                  {% endif %}
+                </a>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- Texte -->
+        <div>
+          <span class="section__label">Parcours</span>
+          <div class="richtext mt-2">{{ page.biography|richtext }}</div>
+
+          {% if page.skills %}
+            <div style="margin-top: 2.5rem;">
+              <span class="section__label">Compétences</span>
+              <div class="richtext mt-2">{{ page.skills|richtext }}</div>
+            </div>
+          {% endif %}
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA ========== -->
+  <section class="section" style="background:var(--green-dark); padding:3rem 0;">
+    <div class="container text-center">
+      <h2 style="color:white; margin-bottom:1rem;">Travaillons ensemble</h2>
+      <p style="color:rgba(255,255,255,0.8); margin-bottom:2rem;">
+        Un premier échange pour comprendre votre situation.
+      </p>
+      <a href="/contact/" class="btn btn--light">Prendre contact</a>
+    </div>
+  </section>
+
+{% endblock %}

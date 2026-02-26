@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags %}
+
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+
+  <!-- ========== EN-TÊTE ========== -->
+  <section class="section section--green" style="padding: 3rem 0;">
+    <div class="container">
+      <span class="section__label">Parlons-en</span>
+      <h1 class="mt-2">{{ page.title }}</h1>
+      {% if page.intro %}
+        <div style="max-width:600px; margin-top:1rem; color:var(--grey-mid);">
+          {{ page.intro|richtext }}
+        </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- ========== FORMULAIRE ========== -->
+  <section class="section">
+    <div class="container" style="max-width:680px;">
+
+      <form action="{% pageurl page %}" method="POST" novalidate>
+        {% csrf_token %}
+
+        {% for field in form %}
+          <div class="form-group">
+            <label class="form-label" for="{{ field.id_for_label }}">
+              {{ field.label }}
+              {% if field.field.required %}<span style="color:var(--green-dark);">*</span>{% endif %}
+            </label>
+
+            {% if field.field.widget.input_type == 'textarea' %}
+              <textarea
+                class="form-textarea"
+                id="{{ field.id_for_label }}"
+                name="{{ field.html_name }}"
+                rows="5"
+                {% if field.field.required %}required{% endif %}
+              >{{ field.value|default:'' }}</textarea>
+            {% else %}
+              <input
+                class="form-input"
+                type="{{ field.field.widget.input_type }}"
+                id="{{ field.id_for_label }}"
+                name="{{ field.html_name }}"
+                value="{{ field.value|default:'' }}"
+                {% if field.field.required %}required{% endif %}
+              />
+            {% endif %}
+
+            {% if field.errors %}
+              {% for error in field.errors %}
+                <span style="color:#e53e3e; font-size:0.85rem;">{{ error }}</span>
+              {% endfor %}
+            {% endif %}
+          </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn--primary" style="width:100%;">
+          Envoyer le message
+        </button>
+
+      </form>
+
+    </div>
+  </section>
+
+{% endblock %}

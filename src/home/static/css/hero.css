@@ -1,0 +1,30 @@
+.hero {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+  text-align: center;
+  padding: 4rem 1rem;
+}
+
+.hero h1 {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+}
+
+.hero p {
+  max-width: 800px;
+  margin: 0 auto 2rem;
+}
+
+.hero .btn {
+  margin-top: 1rem;
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto 2rem;
+}
+
+.hero-content p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}

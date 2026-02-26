@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+{% block title %}Ma méthode{% endblock %}
+
+{% block content %}
+
+  <!-- ========== EN-TÊTE ========== -->
+  <section class="section section--green" style="padding: 3rem 0;">
+    <div class="container">
+      <span class="section__label">Approche</span>
+      <h1 class="mt-2">{{ page.title }}</h1>
+      {% if page.intro %}
+        <div style="max-width:680px; margin-top:1rem; font-size:1.1rem; color:var(--grey-mid);">
+          {{ page.intro|richtext }}
+        </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- ========== SCHÉMA GLOBAL ========== -->
+  {% if page.global_schema %}
+  <section style="padding: 3rem 0; background:var(--grey-light);">
+    <div class="container text-center">
+      {% image page.global_schema max-1000x600 as schema %}
+      <img src="{{ schema.url }}" alt="Schéma global de la méthode"
+           style="max-width:100%; border-radius:var(--radius-md); box-shadow:var(--shadow-md);"
+           loading="lazy" />
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- ========== ÉTAPES ========== -->
+  <section class="section">
+    <div class="container" style="max-width:860px;">
+
+      <div class="section__header">
+        <span class="section__label">En détail</span>
+        <h2 class="section__title">Les étapes</h2>
+      </div>
+
+      {% for step in page.steps.all %}
+        <div class="step">
+
+          <div class="step__number">{{ forloop.counter }}</div>
+
+          <div class="step__content">
+            <h3 class="step__title">{{ step.title }}</h3>
+            <div class="step__desc">{{ step.description|richtext }}</div>
+
+            {% if step.schema %}
+              {% image step.schema max-800x500 as simg %}
+              <img src="{{ simg.url }}" alt="{{ step.title }}"
+                   style="max-width:100%; border-radius:var(--radius-md); margin-top:1rem; box-shadow:var(--shadow-sm);"
+                   loading="lazy" />
+            {% endif %}
+          </div>
+
+        </div>
+      {% empty %}
+        <p style="color:var(--grey-mid);">Les étapes arrivent bientôt.</p>
+      {% endfor %}
+
+    </div>
+  </section>
+
+  <!-- ========== CTA ========== -->
+  <section class="section" style="background:var(--green-dark); padding:3rem 0;">
+    <div class="container text-center">
+      <h2 style="color:white; margin-bottom:1rem;">Envie d'appliquer cette méthode ?</h2>
+      <p style="color:rgba(255,255,255,0.8); margin-bottom:2rem;">
+        Discutons de votre atelier, sans engagement.
+      </p>
+      <a href="/contact/" class="btn btn--light">Prendre contact</a>
+    </div>
+  </section>
+
+{% endblock %}

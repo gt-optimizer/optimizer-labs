@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block title %}Message envoyé{% endblock %}
+
+{% block content %}
+
+  <section class="section" style="min-height: 60vh; display:flex; align-items:center;">
+    <div class="container text-center" style="max-width:600px;">
+
+      <div style="font-size:4rem; margin-bottom:1.5rem;">✅</div>
+
+      <h1 style="margin-bottom:1rem;">Message bien reçu !</h1>
+
+      {% if page.thank_you_text %}
+        <div style="color:var(--grey-mid); font-size:1.05rem; margin-bottom:2rem;">
+          {{ page.thank_you_text|richtext }}
+        </div>
+      {% else %}
+        <p style="color:var(--grey-mid); margin-bottom:2rem;">
+          Merci pour votre message. Je vous répondrai dans les plus brefs délais.
+        </p>
+      {% endif %}
+
+      <a href="/" class="btn btn--primary">Retour à l'accueil</a>
+
+    </div>
+  </section>
+
+{% endblock %}
